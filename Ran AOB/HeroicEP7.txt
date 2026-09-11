@@ -1,0 +1,71 @@
+[SCRIPTCAVING]
+//=======[AOE SCRIPT]=======//
+DWORD aoeaddr = SigScan((char*)"minia.exe",(char*)"\xD8\x5C\x24\x0C\xDF\xE0\xF6\xC4\x05\x7A\x06\xB8\x01",(char*)"xxxxxxxxxxxxx");
+int aoeLength2 = 6;
+jmpbackaoe = aoeaddr + aoeLength2;
+script((void*)aoeaddr, AOECave, aoeLength2);
+//=======[LR SCRIPT]=======//
+DWORD lraddr = SigScan((char*)"minia.exe", (char*)"\xD9\xFA\xD9\x5C\x24\x24\xFF", (char*)"xxxxxxx");
+int lrLength2 = 6;
+jmpbacklr = lraddr + lrLength2;
+script((void*)lraddr, LRCave, lrLength2);
+//=======[AS SCRIPT]=======//
+DWORD asaddr = SigScan((char*)"minia.exe", (char*)"\xD9\x81\xC4\x24\x00\x00", (char*)"xxxxxx");
+int asLength2 = 6;
+jmpbackas = asaddr + asLength2;
+script((void*)asaddr, ASCave, asLength2);
+//=======[CS SCRIPT]=======//
+DWORD csaddr = SigScan((char*)"minia.exe", (char*)"\xD8\x4C\x24\x0C\x8B\xCE\xD8", (char*)"xxxxxxx");
+int csLength2 = 6;
+jmpbackcs = csaddr + csLength2;
+script((void*)csaddr, CSCave, csLength2);
+
+DWORD speed1bypass = SigScan((char*)"minia.exe", (char*)"\xD9\x9D\xA8\x28\x00\x00", (char*)"xxxxxx");
+BYTE BYPASS[1] = { 0xD8 };
+WriteBytes(speed1bypass, BYPASS, 1);
+
+//=======[BUTTON AOB]=======//
+drones = SigScan((char*)"minia.exe", (char*)"\x75\x09\x8B\x4E\x20\x89", (char*)"xxxxxx");
+wallnames = SigScan((char*)"minia.exe", (char*)"\x74\x23\x8B\x4C\x24\x34", (char*)"xxxxxx");
+chatblocks = SigScan((char*)"minia.exe", (char*)"\x74\x15\x5E\x32\xC0\x5B", (char*)"xxxxxx");
+fscrolls = SigScan((char*)"minia.exe", (char*)"\x00\x00\xA0\x42\x35\xFA\x0E\x3C", (char*)"xxxxxxxx");
+fogs = SigScan((char*)"minia.exe", (char*)"\x00\x00\x2F\x44\x00\x00", (char*)"xxxxxx");
+fxtars = SigScan((char*)"minia.exe", (char*)"\x06\x00\x00\x00\xE8\x7D", (char*)"xxxxxx");
+qpots = SigScan((char*)"minia.exe", (char*)"\x02\x33\xF6\xA1", (char*)"xxxx");
+captchas = SigScan((char*)"minia.exe", (char*)"\x8B\x0E\x8B\x01\x6A\x00\xFF\x50\x20\x83\xC6\x04\x4F\x75\xF1\x8B\x4C\x24\x2C\x8B", (char*)"xxxxxxxxxxxxxxxxxxxx");
+
+==================================================================================================================================
+[HEAD 1]
+		ImGui::SetCursorPos({ 20, 55 });
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("DRONE", &drone);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("WALLNAME", &wallname);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("CHATBLOCK", &chatblock);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("30% FAST SCROLL", &fscroll);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("REMOVE FOG ( NEAR )", &fog);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("FIX TARGET", &fxtar);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("Q POTION", &qpot);
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::SameLine(20);
+		ImGui::Checkbox("B1 CAPTCHA", &captcha);
+==================================================================================================================================

@@ -1,0 +1,87 @@
+//=====[SCRIPT CODE]=====//
+//AOE//
+static float aoeval = 0.0f;
+DWORD jmpbackaoe;
+void __declspec(naked) AOECave()
+{
+	__asm
+	{
+		fadd dword ptr[aoeval]
+		fcompp
+		fnstsw ax
+		test ah, 0x41
+		jmp[jmpbackaoe]
+	}
+}
+//LR//
+static float lrval = 0.0f;
+DWORD jmpbacklr;
+void __declspec(naked) LRCave()
+{
+	__asm
+	{
+		mov eax, [edx + 0x10]
+		fsub dword ptr[lrval]
+		fstp dword ptr[esp + 0x30]
+		jmp[jmpbacklr]
+	}
+}
+//AS//
+static float asval = 0.0f;
+DWORD jmpbackas;
+void __declspec(naked) ASCave()
+{
+	__asm
+	{
+		fld dword ptr[ecx + 0x00004730]
+		fadd dword ptr[asval]
+		jmp[jmpbackas]
+	}
+}
+//CS//
+static float csval = 0.0f;
+DWORD jmpbackcs;
+void __declspec(naked) CSCave()
+{
+	__asm
+	{
+		fld dword ptr[esp + 0x0000033C]
+		fadd dword ptr[csval]
+		jmp[jmpbackcs]
+	}
+}
+
+===============================================================================================================================================================
+	//=======[AOE SCRIPT]=======//
+	DWORD aoeaddr = SigScan((char*)"minia.exe", (char*)"\xDE\xD9\xDF\xE0\xF6\xC4\x41\x75\x09\xB8", (char*)"xxxxxxxxxx");
+	int aoeLength2 = 7;
+	jmpbackaoe = aoeaddr + aoeLength2;
+	script((void*)aoeaddr, AOECave, aoeLength2);
+	//=======[LR SCRIPT]=======//
+	DWORD lraddr = SigScan((char*)"minia.exe", (char*)"\x8B\x42\x10\xD9\x5C\x24\x30", (char*)"xxxxxxx");
+	int lrLength2 = 7;
+	jmpbacklr = lraddr + lrLength2;
+	script((void*)lraddr, LRCave, lrLength2);
+	//=======[AS SCRIPT]=======//
+	/*DWORD asaddr = SigScan((char*)"minia.exe", (char*)"\xD9\x81\x30\x47\x00\x00", (char*)"xxxxxx");
+	int asLength2 = 6;
+	jmpbackas = asaddr + asLength2;
+	script((void*)asaddr, ASCave, asLength2);*/
+	//=======[CS SCRIPT]=======//
+	DWORD csaddr = SigScan((char*)"minia.exe", (char*)"\xD9\x84\x24\x3C\x03\x00\x00\x51\x8B\xCD\xD9\x1C\x24\xE8\x43", (char*)"xxxxxxxxxxxxxxx");
+	int csLength2 = 7;
+	jmpbackcs = csaddr + csLength2;
+	script((void*)csaddr, CSCave, csLength2);
+
+	//=======[BUTTON AOB]=======//
+	drones = SigScan((char*)"minia.exe", (char*)"\x7A\x09\xD9\x47\x20\xD9", (char*)"xxxxxx");
+	wallnames = SigScan((char*)"minia.exe", (char*)"\x74\x4A\x83\xBD\xF8\x00", (char*)"xxxxxx");
+	wallnames2 = SigScan((char*)"minia.exe", (char*)"\x74\x41\x8B\x54\x24\x34", (char*)"xxxxxx");
+	wallnames3 = SigScan((char*)"minia.exe", (char*)"\x74\x0F\x8B\x44\x24\x2C", (char*)"xxxxxx");
+	wallnames4 = SigScan((char*)"minia.exe", (char*)"\x74\x27\x8B\x54\x24\x34", (char*)"xxxxxx");
+	wallnames5 = SigScan((char*)"minia.exe", (char*)"\x74\x25\x8B\x54\x24\x34", (char*)"xxxxxx");
+	chatblocks = SigScan((char*)"minia.exe", (char*)"\x74\x15\x5E\x32\xC0\x5B", (char*)"xxxxxx");
+	fscrolls = SigScan((char*)"minia.exe", (char*)"\x00\x00\xA0\x42\x35\xFA\x0E\x3C", (char*)"xxxxxxxx");
+	fogs = SigScan((char*)"minia.exe", (char*)"\x00\x00\x2F\x44\x00\x00\x1B\x44\x00\x00", (char*)"xxxxxxxxxx");
+	fxtars = SigScan((char*)"minia.exe", (char*)"\x06\x00\x00\x00\xE8\x54\x6D", (char*)"xxxxxxx");
+	qpots = SigScan((char*)"minia.exe", (char*)"\x02\x51\x83\xCE", (char*)"xxxx");
